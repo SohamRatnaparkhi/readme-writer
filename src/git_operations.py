@@ -24,6 +24,7 @@ def clone_git_repo(repo_url: str) -> Union[bool, str]:
             os.system(f"rm -rf {path}")
         os.makedirs(path, exist_ok=True)
         Repo.clone_from(repo_url, path)
+
         return True, path
     except Exception as e:
         return False, f"Error cloning {repo_url}: {str(e)}"

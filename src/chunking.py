@@ -2,8 +2,9 @@ import os
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from config import (EXCLUDED_DIRS, EXCLUDED_EXTENSIONS,
-                    INCLUDED_LANGUAGE_WITH_EXTENSION, OTHER_ALLOWED_CONFIG_EXT)
+from .config import (EXCLUDED_DIRS, EXCLUDED_EXTENSIONS,
+                     INCLUDED_LANGUAGE_WITH_EXTENSION,
+                     OTHER_ALLOWED_CONFIG_EXT)
 
 
 def read_file(path: str) -> str:
@@ -45,8 +46,6 @@ def get_every_file_content_in_folder(folder_path: str, is_code: bool, repo_link:
     chunks = []
     repo_name = repo_link.split("/")[-1]
     repo_creator_name = repo_link.split("/")[3]
-    chunk_id = 0
-    metadata = []
     for root, dirs, files in os.walk(folder_path):
         # Remove excluded directories
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
@@ -70,9 +69,10 @@ def get_every_file_content_in_folder(folder_path: str, is_code: bool, repo_link:
 
                     # chunk_id += 1
     return dict(
-        transcript=all_contents,
+        content=all_contents,
         chunks=chunks,
-        metadata=metadata,
+        repo_name=repo_name,
+        repo_creator_name=repo_creator_name
     )
 
 
@@ -141,7 +141,7 @@ def chunk_text(content: str, context_size: int = 1000) -> list:
             # 10% overlap between chunks
             chunk_overlap=int(context_size * 0.1),
             separators=["\n\n", "\n", ".", "!", "?", ",", " ", ""],
-            length_function=len,
+            # length_function=len,
             is_separator_regex=False
         )
 

@@ -1,4 +1,4 @@
-def get_prompt(batch_number: int, total_batches: int, previous_analysis, chunks) -> str:
+def get_readme_prompt(batch_number: int, total_batches: int, previous_analysis, chunks) -> str:
 
     return f'''# Context Analysis
 Analyze the following code chunks (batch {batch_number}/{total_batches}) and identify:
@@ -47,6 +47,23 @@ VARIABLE_NAME=example_value # Brief description of purpose
 
 # Optional Variables
 OPTIONAL_VAR=default_value # Description and when needed
+```
+
+Base Rule:
+- Do not include anything else apart from the contents of README.md
+- Generate strictly in Markdown format
+- Do not  include anything related to internal process. Directly give the resultant contents of the file.
+
+Correct Example:
+```
+# Project Overview
+This project is a web application that allows users to create and share notes. It is built using the Django framework and uses a PostgreSQL database for data storage. The application provides a RESTful API for note management and user authentication.
+```
+
+Incorrect Example:
+```
+The following code is for as follows:
+....
 ```
 
 ## Generation Rules
