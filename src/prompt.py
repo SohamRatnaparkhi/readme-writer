@@ -1,4 +1,6 @@
-prompt = f'''# Context Analysis
+def get_prompt(batch_number: int, total_batches: int, previous_analysis, chunks) -> str:
+
+    return f'''# Context Analysis
 Analyze the following code chunks (batch {batch_number}/{total_batches}) and identify:
 - Core functionality and patterns
 - Key dependencies and external services used
@@ -10,12 +12,11 @@ Analyze the following code chunks (batch {batch_number}/{total_batches}) and ide
 
 Add this information to the existing analysis from previous batches. If this is the first batch, start fresh.
 
-# Previous Analysis
-{If not first batch, include summary of findings from previous batches}
+{previous_analysis}
 
 # Current Code Chunks
 ```
-{paste code chunks here}
+{chunks}
 ```
 
 # Required Output
